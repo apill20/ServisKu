@@ -1,3 +1,4 @@
+//app/index.tsx
 import { useEffect } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';

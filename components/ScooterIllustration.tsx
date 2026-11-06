@@ -106,173 +106,329 @@ export default function ScooterIllustration({
 
       {/* Roda belakang */}
       <G>
-        <Circle cx="78" cy="132" r="27" fill="#172554" />
-        <Circle cx="78" cy="132" r="19" fill="#334155" />
-        <Circle cx="78" cy="132" r="13" fill="#e2e8f0" />
-        <Circle cx="78" cy="132" r="6" fill="#0f766e" />
+        <Circle cx="78" cy="132" r="27" fill="#1E293B" />
+        <Circle cx="78" cy="132" r="21" fill="#334155" />
+        <Circle cx="78" cy="132" r="16" fill="#475569" />
+        <Circle cx="78" cy="132" r="12" fill="#CBD5E1" />
+        <Circle cx="78" cy="132" r="5" fill="#64748B" />
         <Path
-          d="M78 113V151 M59 132H97 M65 119L91 145 M91 119L65 145"
-          stroke="#94a3b8"
+          d="M78 116V148 M62 132H94 M67 121L89 143 M89 121L67 143"
+          stroke="#CBD5E1"
           strokeWidth="2"
         />
       </G>
 
       {/* Roda depan */}
       <G>
-        <Circle cx="225" cy="132" r="27" fill="#172554" />
-        <Circle cx="225" cy="132" r="19" fill="#334155" />
-        <Circle cx="225" cy="132" r="13" fill="#e2e8f0" />
-        <Circle cx="225" cy="132" r="6" fill="#0f766e" />
+        <Circle cx="225" cy="132" r="27" fill="#1E293B" />
+        <Circle cx="225" cy="132" r="21" fill="#334155" />
+        <Circle cx="225" cy="132" r="16" fill="#475569" />
+        <Circle cx="225" cy="132" r="12" fill="#CBD5E1" />
+        <Circle cx="225" cy="132" r="5" fill="#64748B" />
         <Path
-          d="M225 113V151 M206 132H244 M212 119L238 145 M238 119L212 145"
-          stroke="#94a3b8"
+          d="M225 116V148 M209 132H241 M214 121L236 143 M236 121L214 143"
+          stroke="#CBD5E1"
           strokeWidth="2"
         />
       </G>
 
+      {/* Suspensi dan mesin belakang */}
+      <Path
+        d="M94 103L105 128L117 132"
+        stroke="#475569"
+        strokeWidth="5"
+        strokeLinecap="round"
+      />
+      <Path
+        d="M101 105L110 126"
+        stroke="#94A3B8"
+        strokeWidth="2"
+      />
+
+      {/* Mesin dan penutup CVT */}
+      <Path
+        d="M105 111
+           Q123 106 144 112
+           L151 130
+           L116 136
+           Q104 132 105 111Z"
+        fill="#334155"
+        stroke="#1E293B"
+        strokeWidth="2"
+      />
+      <Path
+        d="M115 117Q129 112 142 117L144 128L117 131Z"
+        fill="#475569"
+      />
+
       {/* Bodi bawah dan dek */}
       <Path
-        d="M94 115
-           C112 108 135 107 158 111
-           L197 116
-           C205 117 211 124 207 130
-           L116 130
-           C101 130 91 125 94 115Z"
-        fill="#0f766e"
+        d="M91 111
+           Q111 107 130 111
+           L181 115
+           Q195 116 201 125
+           L193 134
+           L112 134
+           Q94 131 91 111Z"
+        fill="#A9C4B5"
+        stroke="#294B45"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+
+      {/* Bagian pijakan kaki */}
+      <Path
+        d="M142 111
+           L190 115
+           Q198 117 201 125
+           L190 128
+           L144 124Z"
+        fill="#1E293B"
+      />
+      <Path
+        d="M145 116L187 120"
+        stroke="#64748B"
+        strokeWidth="2"
+        strokeLinecap="round"
       />
 
       {/* Bodi belakang */}
       <Path
-        d="M72 99
-           C77 86 91 78 112 78
-           L148 79
-           C164 81 174 91 174 107
-           L159 119
-           L108 119
-           C91 118 75 112 72 99Z"
-        fill="#0d9488"
+        d="M68 91
+           Q74 78 91 76
+           L135 75
+           Q150 76 160 91
+           L153 113
+           Q143 122 116 120
+           L84 115
+           Q69 109 68 91Z"
+        fill="#A9C4B5"
+        stroke="#294B45"
+        strokeWidth="2.5"
+        strokeLinejoin="round"
       />
 
-      {/* Panel samping sporty */}
+      {/* Panel samping belakang cream */}
       <Path
-        d="M91 91
-           L137 88
-           L155 103
-           L112 110
-           L91 101Z"
-        fill="#14b8a6"
+        d="M88 91
+           Q111 83 137 88
+           L150 101
+           Q132 109 103 107
+           L84 102Z"
+        fill="#FFF7ED"
+      />
+
+      {/* Aksen panel samping */}
+      <Path
+        d="M103 95Q123 89 141 96"
+        stroke="#8EAD9D"
+        strokeWidth="3"
+        strokeLinecap="round"
       />
       <Path
-        d="M105 99L139 95L148 102L113 106Z"
-        fill="#ccfbf1"
-        opacity="0.8"
+        d="M115 104L143 102"
+        stroke="#FFFFFF"
+        strokeWidth="2"
+        strokeLinecap="round"
       />
 
       {/* Bodi depan */}
       <Path
-        d="M171 62
-           C184 62 197 73 203 89
-           L216 115
-           C219 121 214 127 207 127
-           L177 124
-           C168 122 163 116 165 106
-           L164 79
-           C164 70 166 64 171 62Z"
-        fill="#0f766e"
+        d="M165 62
+           Q180 58 192 69
+           Q204 81 212 103
+           L219 119
+           Q220 126 211 129
+           L179 125
+           Q164 123 160 111
+           L158 84
+           Q157 68 165 62Z"
+        fill="#A9C4B5"
+        stroke="#294B45"
+        strokeWidth="2.5"
+        strokeLinejoin="round"
       />
 
-      {/* Panel depan */}
+      {/* Panel depan cream */}
       <Path
-        d="M178 76
-           C190 76 199 91 203 108
-           L179 109
-           C172 103 171 87 178 76Z"
-        fill="#14b8a6"
+        d="M174 76
+           Q187 70 195 85
+           L207 113
+           Q193 120 178 114
+           Q169 103 174 76Z"
+        fill="#FFF7ED"
       />
 
-      {/* Lampu LED */}
+      {/* Panel hijau bagian atas */}
       <Path
-        d="M177 73
-           Q190 69 197 82
-           L190 89
-           Q180 87 175 82Z"
-        fill="#fef3c7"
+        d="M164 69
+           Q179 61 191 72
+           L198 85
+           L172 93
+           Q162 87 164 69Z"
+        fill="#86AA98"
+      />
+
+      {/* Lampu depan modern */}
+      <Path
+        d="M177 91
+           Q191 82 202 94
+           L207 105
+           Q194 111 180 106
+           Q174 101 177 91Z"
+        fill="#E0F2FE"
+        stroke="#475569"
+        strokeWidth="1.5"
       />
       <Path
-        d="M180 77Q189 74 193 82"
-        stroke="#ffffff"
+        d="M182 96Q192 91 201 98"
+        stroke="#FFFFFF"
         strokeWidth="2"
         strokeLinecap="round"
       />
 
       {/* Spakbor depan */}
       <Path
-        d="M195 110
-           Q221 105 244 121
-           Q239 110 225 106
-           Q207 99 192 104Z"
-        fill="#115e59"
+        d="M199 112
+           Q220 104 245 121
+           Q239 109 224 105
+           Q207 101 194 107Z"
+        fill="#86AA98"
+        stroke="#294B45"
+        strokeWidth="1.5"
       />
 
       {/* Jok modern */}
       <Path
-        d="M91 75
-           C99 64 117 59 140 60
-           L158 61
-           C166 62 170 68 166 74
-           L153 79
-           L101 81
-           Q88 81 91 75Z"
-        fill="#172554"
+        d="M88 74
+           Q94 62 112 59
+           L145 59
+           Q163 59 169 69
+           Q172 75 163 80
+           L105 83
+           Q89 83 88 74Z"
+        fill="#1E293B"
+        stroke="#0F172A"
+        strokeWidth="2"
       />
       <Path
-        d="M101 68Q127 62 157 67"
-        stroke="#475569"
+        d="M100 70Q127 63 157 67"
+        stroke="#64748B"
         strokeWidth="2"
         strokeLinecap="round"
       />
-
-      {/* Stang dan spion */}
       <Path
-        d="M175 64L170 44L181 37"
+        d="M105 77Q131 74 159 75"
+        stroke="#475569"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+
+      {/* Stang */}
+      <Path
+        d="M174 64L170 47L185 39"
         stroke="#334155"
         strokeWidth="5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <Path
-        d="M168 43L190 43"
-        stroke="#334155"
+        d="M170 47L190 47"
+        stroke="#1E293B"
         strokeWidth="4"
         strokeLinecap="round"
       />
       <Path
-        d="M181 37L185 27"
+        d="M185 39L189 29"
         stroke="#334155"
-        strokeWidth="2"
+        strokeWidth="2.5"
         strokeLinecap="round"
       />
-      <Ellipse cx="186" cy="25" rx="7" ry="4" fill="#172554" />
 
-      {/* Aksen bodi */}
+      {/* Spion */}
+      <Ellipse
+        cx="190"
+        cy="26"
+        rx="8"
+        ry="5"
+        fill="#334155"
+        stroke="#1E293B"
+        strokeWidth="1.5"
+      />
       <Path
-        d="M177 96L190 96"
-        stroke="#ccfbf1"
+        d="M188 24Q192 22 195 25"
+        stroke="#94A3B8"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+
+      {/* Spion kedua */}
+      <Path
+        d="M168 48L160 35L151 31"
+        stroke="#334155"
         strokeWidth="3"
         strokeLinecap="round"
+      />
+      <Ellipse
+        cx="148"
+        cy="29"
+        rx="7"
+        ry="5"
+        fill="#334155"
+        stroke="#1E293B"
+        strokeWidth="1.5"
       />
 
       {/* Lampu belakang */}
       <Path
-        d="M74 91L66 96L72 103L82 98Z"
-        fill="#fb7185"
+        d="M69 89L61 94L67 102L77 97Z"
+        fill="#F87171"
+        stroke="#991B1B"
+        strokeWidth="1"
       />
 
-      {/* Garis detail */}
+      {/* Pegangan belakang */}
       <Path
-        d="M117 115L151 115"
-        stroke="#99f6e4"
-        strokeWidth="2"
+        d="M78 78Q105 52 144 59"
+        stroke="#64748B"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+
+      {/* Suspensi depan */}
+      <Path
+        d="M207 111L218 131"
+        stroke="#475569"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+
+      {/* Knalpot */}
+      <Path
+        d="M121 128L154 130L158 136L126 136Z"
+        fill="#334155"
+      />
+      <Path
+        d="M129 131L151 132"
+        stroke="#94A3B8"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+
+      {/* Standar samping */}
+      <Path
+        d="M163 130L158 154L151 154"
+        stroke="#334155"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* Detail bodi */}
+      <Path
+        d="M180 116L193 116"
+        stroke="#86AA98"
+        strokeWidth="3"
         strokeLinecap="round"
       />
     </Svg>

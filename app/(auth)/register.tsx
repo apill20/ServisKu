@@ -5,7 +5,6 @@ import { Pressable } from "react-native";
 import ScooterIllustration from "../../components/ScooterIllustration";
 import {
   ActivityIndicator,
-  Alert,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
@@ -16,6 +15,7 @@ import {
   TouchableOpacity,
   View,
   useWindowDimensions,
+  Modal,
 } from "react-native";
 import { supabase } from "../../lib/supabase";
 
@@ -33,6 +33,13 @@ export default function RegisterScreen() {
   >(null);
 
   const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalType, setModalType] = useState<"success" | "error" | "info">(
+    "error",
+  );
+  const [modalAction, setModalAction] = useState<(() => void) | null>(null);
 
   const [errors, setErrors] = useState({
     nama: "",
@@ -85,18 +92,29 @@ export default function RegisterScreen() {
     return !Object.values(newErrors).some((error) => error !== "");
   };
 
-  // Menampilkan pesan
-  const showAlert = (title: string, message: string, onOk?: () => void) => {
-    if (Platform.OS === "web") {
-      window.alert(`${title}\n\n${message}`);
-      onOk?.();
-    } else {
-      Alert.alert(
-        title,
-        message,
-        onOk ? [{ text: "OK", onPress: onOk }] : undefined,
-      );
+  // Menampilkan Modal notifikasi
+  const showAlert = (
+    title: string,
+    message: string,
+    onOk?: () => void,
+    type: "success" | "error" | "info" = "error",
+  ) => {
+    setModalTitle(title);
+    setModalMessage(message);
+    setModalType(type);
+    setModalAction(() => onOk ?? null);
+    setModalVisible(true);
+  };
+
+  // Menutup Modal
+  const closeModal = () => {
+    setModalVisible(false);
+
+    if (modalAction) {
+      modalAction();
     }
+
+    setModalAction(null);
   };
 
   // Proses pendaftaran
@@ -144,14 +162,18 @@ export default function RegisterScreen() {
           return;
         }
 
-        showAlert("Berhasil", "Akun berhasil dibuat! Silakan masuk.", () =>
-          router.replace("/(auth)/login"),
+        showAlert(
+          "Pendaftaran Berhasil",
+          "Akun berhasil dibuat! Silakan masuk.",
+          () => router.replace("/(auth)/login"),
+          "success",
         );
       } else {
         showAlert(
           "Pendaftaran Berhasil",
           "Silakan periksa email untuk melakukan konfirmasi akun sebelum masuk.",
           () => router.replace("/(auth)/login"),
+          "success",
         );
       }
     } catch (error) {
@@ -405,6 +427,58 @@ export default function RegisterScreen() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+
+      {/* Modal Notifikasi */}
+      <Modal
+        visible={modalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.alertContainer}>
+            <View
+              style={[
+                styles.alertIcon,
+                modalType === "success" && styles.successIcon,
+                modalType === "info" && styles.infoIcon,
+              ]}
+            >
+              <Ionicons
+                name={
+                  modalType === "success"
+                    ? "checkmark-circle"
+                    : modalType === "info"
+                      ? "information-circle"
+                      : "alert-circle"
+                }
+                size={36}
+                color={
+                  modalType === "success"
+                    ? "#16A34A"
+                    : modalType === "info"
+                      ? "#0284C7"
+                      : "#DC2626"
+                }
+              />
+            </View>
+
+            <Text style={styles.alertTitle}>{modalTitle}</Text>
+
+            <Text style={styles.alertMessage}>{modalMessage}</Text>
+
+            <Pressable
+              style={({ pressed }) => [
+                styles.alertButton,
+                pressed && styles.buttonPressed,
+              ]}
+              onPress={closeModal}
+            >
+              <Text style={styles.alertButtonText}>Mengerti</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -475,7 +549,7 @@ const styles = StyleSheet.create({
   },
 
   illustrationContainer: {
-    backgroundColor: "#E0F2FE",
+    backgroundColor: "#E0F2F2",
     borderRadius: 28,
     minHeight: 220,
     alignItems: "center",
@@ -667,5 +741,81 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_700Bold",
     fontSize: 13,
     color: "#0f766e",
+  },
+  // Background Modal
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(15, 23, 42, 0.45)",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 28,
+  },
+
+  // Kotak Modal
+  alertContainer: {
+    width: "100%",
+    maxWidth: 340,
+    backgroundColor: "#ffffff",
+    borderRadius: 24,
+    padding: 24,
+    alignItems: "center",
+    elevation: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.15,
+    shadowRadius: 16,
+  },
+
+  // Ikon Modal
+  alertIcon: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: "#FEE2E2",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+
+  successIcon: {
+    backgroundColor: "#DCFCE7",
+  },
+
+  infoIcon: {
+    backgroundColor: "#E0F2FE",
+  },
+
+  // Judul Modal
+  alertTitle: {
+    fontFamily: "Inter_700Bold",
+    fontSize: 18,
+    color: "#0f172a",
+    marginBottom: 8,
+    textAlign: "center",
+  },
+
+  // Pesan Modal
+  alertMessage: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 13,
+    lineHeight: 21,
+    color: "#64748b",
+    textAlign: "center",
+    marginBottom: 22,
+  },
+
+  // Tombol Modal
+  alertButton: {
+    width: "100%",
+    backgroundColor: "#0f766e",
+    paddingVertical: 15,
+    borderRadius: 25,
+    alignItems: "center",
+  },
+
+  alertButtonText: {
+    fontFamily: "Inter_700Bold",
+    fontSize: 14,
+    color: "#ffffff",
   },
 });

@@ -1,3 +1,4 @@
+//app/(auth)/login.tsx
 import React, { useState, useRef } from "react";
 import { Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -99,7 +100,7 @@ export default function LoginScreen() {
       if (error) {
         showAlert(
           "Login Gagal",
-          "Email atau kata sandi yang kamu masukkan salah. Periksa kembali, ya.",
+          "Email atau kata sandi tidak sesuai, atau akun belum terdaftar. Periksa kembali data yang kamu masukkan. Jika belum memiliki akun, silakan daftar terlebih dahulu.",
         );
         return;
       }
@@ -377,7 +378,7 @@ const styles = StyleSheet.create({
   },
 
   headerContainer: {
-    backgroundColor: "#e0f2fe",
+    backgroundColor: "#E0F2F2",
     alignItems: "center",
     justifyContent: "center",
     paddingTop: 30,

@@ -1,4 +1,4 @@
-
+//app/_layout.tsx
 import {
   useFonts,
   Inter_400Regular,
