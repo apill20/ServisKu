@@ -134,7 +134,7 @@ export default function HomeScreen() {
           </View>
 
           <View style={styles.illustrationContainer}>
-            <ScooterIllustration />
+            <ScooterIllustration width={150} height={100} />
           </View>
         </View>
       </View>
@@ -197,7 +197,11 @@ export default function HomeScreen() {
               }
             >
               <View style={styles.vehicleIcon}>
-                <FontAwesomeIcon icon={faMotorcycle} size={35} color="#0F766E" />
+                <FontAwesomeIcon
+                  icon={faMotorcycle}
+                  size={35}
+                  color="#0F766E"
+                />
               </View>
 
               <View style={styles.vehicleInfo}>
@@ -314,14 +318,14 @@ const styles = StyleSheet.create({
     maxWidth: 900,
     alignSelf: "center",
   },
-  hero: {
-    backgroundColor: "#E0F2F2",
-    paddingHorizontal: 24,
-    paddingTop: 24,
-    paddingBottom: 27,
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
-  },
+hero: {
+  backgroundColor: "#E0F2F2",
+  paddingHorizontal: 24,
+  paddingTop: 32,
+  paddingBottom: 27,
+  borderBottomLeftRadius: 25,
+  borderBottomRightRadius: 25,
+},
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -610,11 +614,11 @@ const styles = StyleSheet.create({
   },
 
   illustrationContainer: {
-    width: 100,
-    height: 110,
+    width: 120,
+    height: 90,
     justifyContent: "center",
     alignItems: "center",
-    transform: [{ translateX: -5 }],
+    transform: [{ translateX: 0 }],
   },
 
   statusSummaryCard: {
