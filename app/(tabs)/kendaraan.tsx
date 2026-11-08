@@ -5,12 +5,13 @@ import { faMotorcycle } from "@fortawesome/free-solid-svg-icons";
 import {
   ActivityIndicator,
   Pressable,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   View,
 } from "react-native";
+
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import ScooterIllustration from "../../components/ScooterIllustration";
 import { supabase } from "../../lib/supabase";
@@ -81,7 +82,7 @@ export default function KendaraanScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["top"]}>
       {/* Header */}
       <View style={styles.header}>
         <View>
@@ -236,20 +237,20 @@ export default function KendaraanScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#E0F2F2",
   },
 
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingTop: 18,
-    paddingBottom: 16,
-    backgroundColor: "#E0F2F2",
-    borderBottomWidth: 1,
-    borderBottomColor: "#CDE5E2",
-  },
+header: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  paddingHorizontal: 20,
+  paddingTop: 18,
+  paddingBottom: 16,
+  backgroundColor: "#E0F2F2",
+  borderBottomWidth: 1,
+  borderBottomColor: "#CDE5E2",
+},
 
   headerTitle: {
     fontFamily: "Inter_700Bold",
@@ -273,12 +274,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  scrollContent: {
-    flexGrow: 1,
-    paddingHorizontal: 20,
-    paddingTop: 22,
-    paddingBottom: 30,
-  },
+scrollContent: {
+  flexGrow: 1,
+  backgroundColor: "#FFFFFF",
+  paddingHorizontal: 20,
+  paddingTop: 22,
+  paddingBottom: 30,
+},
 
   loadingContainer: {
     flex: 1,
