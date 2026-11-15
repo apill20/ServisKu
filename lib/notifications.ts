@@ -1,3 +1,4 @@
+//lib/notifications.ts
 import * as Notifications from "expo-notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Platform } from "react-native";
@@ -37,6 +38,21 @@ function buatTriggerInterval() {
 
 // Meminta izin notifikasi dari pengguna
 export async function mintaIzinNotifikasi() {
+  // Notifikasi lokal tidak didukung di web.
+  if (Platform.OS === "web") return false;
+
+  // Di Android, kanal harus ada sebelum izin diminta.
+  if (Platform.OS === "android") {
+    try {
+      await Notifications.setNotificationChannelAsync(CHANNEL_ID, {
+        name: "Pengingat ServisKu",
+        importance: Notifications.AndroidImportance.HIGH,
+      });
+    } catch (error) {
+      console.warn("Kanal notifikasi tidak dapat dibuat:", error);
+    }
+  }
+
   const { status: statusAwal } = await Notifications.getPermissionsAsync();
 
   if (statusAwal === "granted") {
@@ -63,18 +79,18 @@ export async function batalkanPengingatServis(componentId: string) {
   }
 
   // Batalkan juga jadwal notifikasi berdasarkan kilometer.
-const kmIdStorageKey = `@servisku/pengingat-km-id/${componentId}`;
-const dataKmLama = await AsyncStorage.getItem(kmIdStorageKey);
+  const kmIdStorageKey = `@servisku/pengingat-km-id/${componentId}`;
+  const dataKmLama = await AsyncStorage.getItem(kmIdStorageKey);
 
-if (dataKmLama) {
-  const daftarKmId: string[] = JSON.parse(dataKmLama);
+  if (dataKmLama) {
+    const daftarKmId: string[] = JSON.parse(dataKmLama);
 
-  for (const id of daftarKmId) {
-    await Notifications.cancelScheduledNotificationAsync(id);
+    for (const id of daftarKmId) {
+      await Notifications.cancelScheduledNotificationAsync(id);
+    }
   }
-}
 
-await AsyncStorage.removeItem(kmIdStorageKey);
+  await AsyncStorage.removeItem(kmIdStorageKey);
 
   await AsyncStorage.removeItem(storageKey);
   await AsyncStorage.removeItem(`@servisku/pengingat-km/${componentId}`);
@@ -202,9 +218,7 @@ export async function periksaPengingatKilometer({
 
   const statusLama = await AsyncStorage.getItem(storageKey);
   const dataIdLama = await AsyncStorage.getItem(idStorageKey);
-  const daftarIdLama: string[] = dataIdLama
-    ? JSON.parse(dataIdLama)
-    : [];
+  const daftarIdLama: string[] = dataIdLama ? JSON.parse(dataIdLama) : [];
 
   // Membatalkan semua pengingat kilometer yang masih terjadwal.
   const batalkanJadwalKilometer = async () => {
@@ -242,8 +256,8 @@ export async function periksaPengingatKilometer({
   const content = {
     title: terlambat ? "Servis Motor Terlambat!" : "Pengingat ServisKu",
     body: terlambat
-      ? `${namaKomponen} pada ${namaMotor} sudah melewati batas kilometer servis. Yuk, segera lakukan servis!`
-      : `${namaKomponen} pada ${namaMotor} sudah mendekati batas kilometer servis. Persiapkan servis, ya!`,
+      ? `${namaKomponen} pada ${namaMotor} sudah melewati batas servis. Yuk, segera lakukan servis!`
+      : `${namaKomponen} pada ${namaMotor} sudah mendekati batas servis. Persiapkan servis, ya!`,
     sound: "default" as const,
     data: {
       componentId,
@@ -277,40 +291,7 @@ export async function periksaPengingatKilometer({
   }
 
   await AsyncStorage.setItem(storageKey, status);
-  await AsyncStorage.setItem(
-    idStorageKey,
-    JSON.stringify(daftarIdBaru),
-  );
-
-  return true;
-}
-
-// Fungsi khusus untuk mengetes notifikasi
-export async function tesNotifikasi() {
-  const izin = await mintaIzinNotifikasi();
-
-  if (!izin) {
-    return false;
-  }
-
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "Tes Notifikasi ServisKu 🛵",
-      body: "Yeay! Notifikasi ServisKu berhasil muncul di HP kamu.",
-      sound: "default",
-      data: {
-        jenis: "tes",
-      },
-    },
-    trigger: {
-      type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
-      seconds: 5,
-      repeats: false,
-      ...(Platform.OS === "android" && {
-        channelId: CHANNEL_ID,
-      }),
-    },
-  });
+  await AsyncStorage.setItem(idStorageKey, JSON.stringify(daftarIdBaru));
 
   return true;
 }

@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
-  tesNotifikasi,
+  mintaIzinNotifikasi,
   periksaPengingatKilometer,
 } from "../../lib/notifications";
 import { Ionicons } from "@expo/vector-icons";
@@ -149,30 +149,6 @@ const warnaStatus = (status: StatusPerawatan["status"]) => {
 export default function HomeScreen() {
   const [username, setUsername] = useState("Pengendara");
   const router = useRouter();
-  const handleTesNotifikasi = async () => {
-    try {
-      const berhasil = await tesNotifikasi();
-
-      if (berhasil) {
-        Alert.alert(
-          "Tes Notifikasi",
-          "Notifikasi berhasil dijadwalkan. Tunggu sekitar 5 detik.",
-        );
-      } else {
-        Alert.alert(
-          "Izin Notifikasi",
-          "Izin notifikasi belum diberikan. Silakan izinkan notifikasi di pengaturan HP.",
-        );
-      }
-    } catch (error) {
-      console.error("Gagal mengetes notifikasi:", error);
-
-      Alert.alert(
-        "Gagal",
-        "Notifikasi tes gagal dijadwalkan. Periksa log error.",
-      );
-    }
-  };
 
   const [kendaraan, setKendaraan] = useState<Kendaraan[]>([]);
   const [daftarStatus, setDaftarStatus] = useState<StatusPerawatan[]>([]);
@@ -206,6 +182,7 @@ export default function HomeScreen() {
       );
     };
 
+    mintaIzinNotifikasi();
     ambilNamaPengguna();
   }, []);
 
@@ -433,20 +410,18 @@ export default function HomeScreen() {
               : "Aman";
 
           // Status kilometer diperiksa terpisah dari status tanggal.
-          const statusKilometer: "aman" | "segera" | "terlambat" | "belum" =
-            intervalKm === null || sisaKm === null
-              ? "belum"
-              : sisaKm <= 0
-                ? "terlambat"
-                : sisaKm <= intervalKm * 0.15
-                  ? "segera"
-                  : "aman";
+          const statusPengingat: "aman" | "segera" | "terlambat" =
+            status === "Terlambat"
+              ? "terlambat"
+              : status === "Segera"
+                ? "segera"
+                : "aman";
 
           daftarPengingatKilometer.push({
             componentId: komponen.id,
             namaKomponen: komponen.nama_komponen,
             namaMotor: kendaraanItem.nama_motor,
-            status: statusKilometer,
+            status: statusPengingat,
           });
 
           hasilStatus.push({
@@ -465,13 +440,11 @@ export default function HomeScreen() {
         if (isActive()) {
           setDaftarStatus(hasilStatus);
 
-          // Memeriksa dan memperbarui pengingat kilometer.
+          // Memeriksa pengingat satu per satu agar permintaan izin tidak bentrok.
           try {
-            await Promise.all(
-              daftarPengingatKilometer.map((item) =>
-                periksaPengingatKilometer(item),
-              ),
-            );
+            for (const item of daftarPengingatKilometer) {
+              await periksaPengingatKilometer(item);
+            }
           } catch (error) {
             console.error("Gagal memperbarui pengingat kilometer:", error);
           }
@@ -628,14 +601,6 @@ export default function HomeScreen() {
               <ScooterIllustration width={150} height={100} />
             </View>
           </View>
-        </View>
-
-        {/* TOMBOL TES NOTIFIKASI SEMENTARA */}
-        <View style={styles.section}>
-          <Pressable style={styles.primaryButton} onPress={handleTesNotifikasi}>
-            <Ionicons name="notifications-outline" size={18} color="#FFFFFF" />
-            <Text style={styles.primaryButtonText}>Tes Notifikasi</Text>
-          </Pressable>
         </View>
 
         {/* KENDARAAN SAYA */}
