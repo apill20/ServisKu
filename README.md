@@ -29,6 +29,7 @@ Setelah diunduh, izinkan instalasi dari sumber tidak dikenal jika diminta oleh A
     <td align="center"><img src="docs/ss/riwayat.jpg" width="200" alt="Riwayat"><br><sub>Riwayat</sub></td>
     <td align="center"><img src="docs/ss/notifAtas.jpg" width="200" alt="Notifikasi"><br><sub>Notifikasi</sub></td>
     <td align="center"><img src="docs/ss/bengkel.jpg" width="200" alt="Bengkel"><br><sub>Bengkel terdekat</sub></td>
+    <td align="center"><img src="docs/ss/profil.jpg" width="200" alt="Profil"><br><sub>Profil</sub></td>
   </tr>
 </table>
 
