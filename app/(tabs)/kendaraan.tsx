@@ -254,8 +254,8 @@ header: {
 
   headerTitle: {
     fontFamily: "Inter_700Bold",
-    fontSize: 24,
-    color: "#0F172A",
+    fontSize: 23,
+    color: "#0F766E",
   },
 
   headerSubtitle: {

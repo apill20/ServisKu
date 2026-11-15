@@ -5,12 +5,13 @@ import {
   ActivityIndicator,
   Modal,
   Pressable,
-  SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "../../lib/supabase";
 
@@ -212,7 +213,7 @@ export default function DetailKendaraanScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["top"]}>
       {/* Header */}
       <View style={styles.header}>
         <Pressable onPress={() => router.back()} style={styles.backButton}>
@@ -225,7 +226,7 @@ export default function DetailKendaraanScreen() {
       </View>
 
       {loading ? (
-        <View style={styles.messageContainer}>
+        <View style={[styles.messageContainer, { backgroundColor: "#FFFFFF" }]}>
           <ActivityIndicator size="large" color="#0F766E" />
           <Text style={styles.messageText}>Memuat detail kendaraan...</Text>
         </View>
@@ -542,7 +543,7 @@ export default function DetailKendaraanScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: "#E0F2F2",
   },
 
   header: {
@@ -551,6 +552,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 20,
     paddingVertical: 15,
+    paddingTop: 15,
     backgroundColor: "#E0F2F2",
     borderBottomWidth: 1,
     borderBottomColor: "#CDE5E2",
@@ -578,6 +580,7 @@ const styles = StyleSheet.create({
   scrollContent: {
     padding: 20,
     paddingBottom: 35,
+    backgroundColor: "#F8FAFC",
   },
 
   vehicleHeader: {
@@ -780,6 +783,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 25,
+    backgroundColor: "#FFFFFF",
   },
 
   messageText: {

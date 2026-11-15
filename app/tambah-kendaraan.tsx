@@ -3,22 +3,19 @@ import React, { useState, useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { supabase } from "../lib/supabase";
-import ScooterIllustration from "../components/ScooterIllustration";
-
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Modal,
   Platform,
   Pressable,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
-  useWindowDimensions,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type JenisMotor = "Matic" | "Manual" | "Semi otomatis";
 
@@ -37,8 +34,6 @@ const DAFTAR_KOMPONEN: KomponenPerawatan[] = [
 
 export default function TambahKendaraanScreen() {
   const router = useRouter();
-  const { width } = useWindowDimensions();
-  const isDesktop = width >= 900;
   const namaMotorRef = useRef<TextInput>(null);
   const merekRef = useRef<TextInput>(null);
   const modelRef = useRef<TextInput>(null);
@@ -314,72 +309,29 @@ export default function TambahKendaraanScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.safeArea} edges={["top"]}>
       <KeyboardAvoidingView
         style={styles.keyboardView}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
+        {/* HEADER TETAP DI ATAS */}
+        <View style={styles.mobileHeader}>
+          <Pressable onPress={() => router.back()} style={styles.backButton}>
+            <Ionicons name="arrow-back" size={21} color="#0F766E" />
+          </Pressable>
+
+          <Text style={styles.logo}>ServisKu</Text>
+        </View>
+
+        {/* KONTEN FORMULIR */}
         <ScrollView
           contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <View
-            style={[styles.container, isDesktop && styles.containerDesktop]}
-          >
-            {/* Bagian ilustrasi desktop */}
-            {isDesktop && (
-              <View style={styles.welcomeSection}>
-                <Text style={styles.welcomeLogo}>ServisKu.</Text>
-
-                <View style={styles.welcomeContent}>
-                  <Text style={styles.welcomeTitle}>
-                    Kenali motormu,
-                    {"\n"}
-                    rawat dengan mudah.
-                  </Text>
-
-                  <Text style={styles.welcomeSubtitle}>
-                    Tambahkan kendaraan pribadimu untuk mulai mencatat dan
-                    memantau jadwal perawatannya.
-                  </Text>
-
-                  <View style={styles.illustrationContainer}>
-                    <ScooterIllustration width={230} height={140} />
-
-                    <View style={styles.illustrationText}>
-                      <Ionicons
-                        name="checkmark-circle"
-                        size={22}
-                        color="#0f6176"
-                      />
-                      <Text style={styles.illustrationLabel}>
-                        Satu tempat untuk perawatan motormu.
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            )}
-
-            {/* Panel form */}
-            <View
-              style={[styles.formPanel, isDesktop && styles.formPanelDesktop]}
-            >
+          <View style={styles.container}>
+            <View style={styles.formPanel}>
               <View style={styles.header}>
-                {!isDesktop && (
-                  <View style={styles.mobileHeader}>
-                    <Pressable
-                      onPress={() => router.back()}
-                      style={styles.backButton}
-                    >
-                      <Ionicons name="arrow-back" size={21} color="#0f766e" />
-                    </Pressable>
-
-                    <Text style={styles.logo}>ServisKu</Text>
-                  </View>
-                )}
-
                 <Text style={styles.title}>Tambah Kendaraan</Text>
 
                 <Text style={styles.subtitle}>
@@ -445,7 +397,10 @@ export default function TambahKendaraanScreen() {
                   "Contoh: G 1234 AB",
                   "nomorPolisi",
                   errors.nomorPolisi,
-                  { autoCapitalize: "characters", inputRef: nomorPolisiRef },
+                  {
+                    autoCapitalize: "characters",
+                    inputRef: nomorPolisiRef,
+                  },
                 )}
 
                 {/* Jenis motor */}
@@ -568,13 +523,12 @@ export default function TambahKendaraanScreen() {
                         >
                           <Ionicons
                             name={
-                              selected
-                                ? "checkmark-circle"
-                                : "ellipse-outline"
+                              selected ? "checkmark-circle" : "ellipse-outline"
                             }
                             size={19}
                             color={selected ? "#0F766E" : "#94A3B8"}
                           />
+
                           <Text
                             style={[
                               styles.componentOptionText,
@@ -589,8 +543,8 @@ export default function TambahKendaraanScreen() {
                   </View>
 
                   <Text style={styles.helperText}>
-                    Bagian ini boleh dilewati. Interval dapat disesuaikan setelah
-                    kendaraan ditambahkan.
+                    Bagian ini boleh dilewati. Interval dapat disesuaikan
+                    setelah kendaraan ditambahkan.
                   </Text>
                 </View>
 
@@ -684,117 +638,27 @@ export default function TambahKendaraanScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#f8fafc",
+    backgroundColor: "#E0F2F2",
   },
 
   keyboardView: {
     flex: 1,
   },
 
-  scrollContent: {
-    flexGrow: 1,
-    justifyContent: "center",
-    paddingVertical: 32,
-    paddingHorizontal: 20,
-  },
-
-  container: {
-    width: "100%",
-    maxWidth: 440,
-    alignSelf: "center",
-  },
-
-  containerDesktop: {
-    maxWidth: 1100,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 64,
-  },
-
-  welcomeSection: {
-    flex: 1,
-    justifyContent: "space-between",
-    minHeight: 520,
-    paddingVertical: 25,
-  },
-
-  welcomeLogo: {
-    fontFamily: "Inter_700Bold",
-    fontSize: 24,
-    color: "#0f766e",
-  },
-
-  welcomeContent: {
-    gap: 20,
-  },
-
-  welcomeTitle: {
-    fontFamily: "Inter_700Bold",
-    fontSize: 42,
-    lineHeight: 54,
-    color: "#0f172a",
-  },
-
-  welcomeSubtitle: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 16,
-    lineHeight: 26,
-    color: "#64748b",
-    maxWidth: 430,
-  },
-
-  illustrationContainer: {
-    backgroundColor: "#E0F2F2",
-    borderRadius: 28,
-    minHeight: 220,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 12,
-    padding: 20,
-  },
-
-  illustrationText: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 9,
-    marginTop: 12,
-  },
-
-  illustrationLabel: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    color: "#135567",
-  },
-
-  formPanel: {
-    width: "100%",
-    maxWidth: 440,
-    alignSelf: "center",
-  },
-
-  formPanelDesktop: {
-    width: 460,
-    maxWidth: 460,
-    backgroundColor: "#ffffff",
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: "#e2e8f0",
-    padding: 36,
-  },
-
   mobileHeader: {
     flexDirection: "row",
     alignItems: "center",
     gap: 13,
-    marginBottom: 22,
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+    backgroundColor: "#E0F2F2",
   },
 
   backButton: {
     width: 40,
     height: 40,
     borderRadius: 13,
-    backgroundColor: "#E0F2F2",
+    backgroundColor: "#FFFFFF",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -803,6 +667,23 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_700Bold",
     fontSize: 18,
     color: "#0f766e",
+  },
+
+  scrollContent: {
+    flexGrow: 1,
+    paddingVertical: 32,
+    paddingHorizontal: 20,
+    backgroundColor: "#F8FAFC",
+  },
+
+  container: {
+    width: "100%",
+    maxWidth: 440,
+    alignSelf: "center",
+  },
+
+  formPanel: {
+    width: "100%",
   },
 
   header: {

@@ -864,9 +864,9 @@ const styles = StyleSheet.create({
     marginBottom: 22,
   },
   pageTitle: {
-    fontSize: 25,
-    fontWeight: "700",
-    color: "#0F172A",
+    fontFamily: "Inter_700Bold",
+    fontSize: 23,
+    color: "#0F766E",
   },
   pageSubtitle: {
     fontSize: 13,
@@ -891,7 +891,7 @@ const styles = StyleSheet.create({
   },
   profileName: {
     fontSize: 18,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#0F172A",
     textAlign: "center",
   },
@@ -913,11 +913,11 @@ const styles = StyleSheet.create({
   accountBadgeText: {
     color: "#0F766E",
     fontSize: 11,
-    fontWeight: "600",
+    fontFamily: "Inter_600SemiBold",
   },
   sectionTitle: {
     fontSize: 14,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#334155",
     marginBottom: 11,
     marginTop: 5,
@@ -955,7 +955,7 @@ const styles = StyleSheet.create({
   },
   menuTitle: {
     fontSize: 13,
-    fontWeight: "600",
+    fontFamily: "Inter_600SemiBold",
     color: "#0F172A",
   },
   dangerText: {
@@ -1025,7 +1025,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 18,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#0F172A",
   },
   detailItem: {
@@ -1054,7 +1054,7 @@ const styles = StyleSheet.create({
   },
   detailValue: {
     fontSize: 14,
-    fontWeight: "600",
+    fontFamily: "Inter_600SemiBold",
     color: "#0F172A",
   },
   inputGroup: {
@@ -1062,7 +1062,7 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 13,
-    fontWeight: "600",
+    fontFamily: "Inter_600SemiBold",
     color: "#334155",
     marginBottom: 8,
     marginTop: 4,
@@ -1115,7 +1115,7 @@ const styles = StyleSheet.create({
   primaryButtonText: {
     color: "#FFFFFF",
     fontSize: 14,
-    fontWeight: "600",
+    fontFamily: "Inter_600SemiBold",
   },
   buttonPressed: {
     opacity: 0.75,
@@ -1153,7 +1153,7 @@ const styles = StyleSheet.create({
   },
   infoTitle: {
     fontSize: 15,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#0F172A",
     marginBottom: 8,
   },
@@ -1183,7 +1183,7 @@ const styles = StyleSheet.create({
   },
   confirmTitle: {
     fontSize: 17,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#0F172A",
   },
   confirmDescription: {
@@ -1209,7 +1209,7 @@ const styles = StyleSheet.create({
   },
   cancelButtonText: {
     fontSize: 13,
-    fontWeight: "600",
+    fontFamily: "Inter_600SemiBold",
     color: "#475569",
   },
   logoutButton: {
@@ -1222,7 +1222,7 @@ const styles = StyleSheet.create({
   },
   logoutButtonText: {
     fontSize: 13,
-    fontWeight: "600",
+    fontFamily: "Inter_600SemiBold",
     color: "#FFFFFF",
   },
   inputError: {

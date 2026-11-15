@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   ActivityIndicator,
@@ -6,13 +6,17 @@ import {
   Modal,
   Platform,
   Pressable,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  batalkanPengingatServis,
+  jadwalkanPengingatServis,
+} from "../../lib/notifications";
 import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "../../lib/supabase";
 
@@ -23,6 +27,22 @@ const formatTanggal = (date: Date) => {
   const day = String(date.getDate()).padStart(2, "0");
 
   return `${year}-${month}-${day}`;
+};
+
+// Menghitung tanggal servis berikutnya berdasarkan interval bulan.
+const hitungTanggalJadwal = (tanggal: string, intervalBulan: number) => {
+  const [tahun, bulan, hari] = tanggal.split("-").map(Number);
+
+  const bulanTujuan = bulan - 1 + intervalBulan;
+  const tahunTujuan = tahun + Math.floor(bulanTujuan / 12);
+  const bulanAkhir = bulanTujuan % 12;
+
+  // Menyesuaikan tanggal jika bulan tujuan lebih pendek.
+  const hariTerakhir = new Date(tahunTujuan, bulanAkhir + 1, 0).getDate();
+
+  const tanggalTujuan = Math.min(hari, hariTerakhir);
+
+  return formatTanggal(new Date(tahunTujuan, bulanAkhir, tanggalTujuan));
 };
 
 const NAMA_BULAN = [
@@ -54,6 +74,34 @@ export default function CatatServisScreen() {
   const komponenId = params.id;
   const kendaraanId = params.kendaraanId;
   const odometerTerbaru = Number(params.odometer);
+  const [namaKomponen, setNamaKomponen] = useState("");
+  const [loadingKomponen, setLoadingKomponen] = useState(true);
+
+  useEffect(() => {
+    const ambilNamaKomponen = async () => {
+      if (!komponenId || !kendaraanId) {
+        setLoadingKomponen(false);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("komponen_perawatan")
+        .select("nama_komponen")
+        .eq("id", komponenId)
+        .eq("kendaraan_id", kendaraanId)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Gagal mengambil nama komponen:", error);
+      } else if (data) {
+        setNamaKomponen(data.nama_komponen);
+      }
+
+      setLoadingKomponen(false);
+    };
+
+    ambilNamaKomponen();
+  }, [komponenId, kendaraanId]);
 
   const hariIni = new Date();
   const tanggalHariIni = formatTanggal(hariIni);
@@ -204,7 +252,7 @@ export default function CatatServisScreen() {
       // Memastikan komponen termasuk kendaraan milik pengguna.
       const { data: komponenData, error: komponenError } = await supabase
         .from("komponen_perawatan")
-        .select("id")
+        .select("id, nama_komponen, interval_bulan")
         .eq("id", komponenId)
         .eq("kendaraan_id", kendaraanId)
         .maybeSingle();
@@ -213,6 +261,19 @@ export default function CatatServisScreen() {
 
       if (!komponenData) {
         throw new Error("Komponen tidak ditemukan.");
+      }
+
+      const { data: kendaraanData, error: kendaraanError } = await supabase
+        .from("kendaraan")
+        .select("nama_motor")
+        .eq("id", kendaraanId)
+        .eq("owner_id", user.id)
+        .maybeSingle();
+
+      if (kendaraanError) throw kendaraanError;
+
+      if (!kendaraanData) {
+        throw new Error("Data kendaraan tidak ditemukan.");
       }
 
       const { error } = await supabase.from("catatan_servis").insert({
@@ -225,6 +286,31 @@ export default function CatatServisScreen() {
       });
 
       if (error) throw error;
+
+      // Perbarui pengingat setelah catatan servis berhasil disimpan.
+      try {
+        const intervalBulan = komponenData.interval_bulan;
+
+        if (intervalBulan && intervalBulan > 0) {
+          const tanggalJadwalBerikutnya = hitungTanggalJadwal(
+            tanggalServis,
+            intervalBulan,
+          );
+
+          await jadwalkanPengingatServis({
+            componentId: komponenId,
+            namaKomponen: komponenData.nama_komponen,
+            namaMotor: kendaraanData.nama_motor,
+            tanggalJadwal: tanggalJadwalBerikutnya,
+          });
+        } else {
+          // Jika interval bulan tidak tersedia, hapus pengingat lama.
+          await batalkanPengingatServis(komponenId);
+        }
+      } catch (notifError) {
+        // Kegagalan notifikasi tidak boleh menggagalkan catatan servis.
+        console.error("Gagal memperbarui pengingat:", notifError);
+      }
 
       setSuccess(true);
     } catch (error) {
@@ -280,9 +366,10 @@ export default function CatatServisScreen() {
       </View>
     );
   };
+  
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["top"]}>
       <View style={styles.header}>
         <Pressable
           style={styles.backButton}
@@ -303,11 +390,13 @@ export default function CatatServisScreen() {
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <ScrollView
           contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+          automaticallyAdjustKeyboardInsets
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.introCard}>
@@ -315,10 +404,18 @@ export default function CatatServisScreen() {
               <Ionicons name="construct-outline" size={26} color="#0F766E" />
             </View>
 
-            <Text style={styles.title}>Riwayat Servis Baru</Text>
+            <Text style={styles.title}>Catat Servis</Text>
 
             <Text style={styles.subtitle}>
-              Lengkapi informasi perawatan kendaraan yang sudah dilakukan.
+              Kamu sedang mencatat servis untuk:
+            </Text>
+
+            <Text style={styles.componentName}>
+              {namaKomponen || "Memuat komponen..."}
+            </Text>
+
+            <Text style={styles.subtitle}>
+              Lengkapi informasi perawatan yang sudah dilakukan.
             </Text>
           </View>
 
@@ -585,7 +682,7 @@ export default function CatatServisScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: "#E0F2F2",
   },
   header: {
     flexDirection: "row",
@@ -615,7 +712,8 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 20,
-    paddingBottom: 40,
+    paddingBottom: 35,
+    backgroundColor: "#F8FAFC",
   },
   introCard: {
     backgroundColor: "#E0F2F2",
@@ -908,5 +1006,13 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_700Bold",
     fontSize: 13,
     color: "#FFFFFF",
+  },
+  componentName: {
+    fontFamily: "Inter_700Bold",
+    fontSize: 16,
+    color: "#0F766E",
+    textAlign: "center",
+    marginTop: 7,
+    marginBottom: 3,
   },
 });

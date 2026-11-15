@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 16,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#0F172A",
   },
   headerSpacer: {
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
   },
   appName: {
     fontSize: 25,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#0F172A",
   },
   tagline: {
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
   },
   versionText: {
     fontSize: 11,
-    fontWeight: "600",
+    fontFamily: "Inter_600SemiBold",
     color: "#0F766E",
   },
   section: {
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 16,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#0F172A",
     marginBottom: 13,
   },
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
   },
   featureTitle: {
     fontSize: 13,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#0F172A",
     marginBottom: 5,
   },
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
   },
   purposeTitle: {
     fontSize: 14,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#0F172A",
     marginBottom: 8,
   },
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
   },
   footerName: {
     fontSize: 14,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#0F766E",
   },
   footerText: {

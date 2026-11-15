@@ -955,9 +955,9 @@ const styles = StyleSheet.create({
     marginBottom: 23,
   },
   title: {
-    fontSize: 25,
-    fontWeight: "700",
-    color: "#0F172A",
+    fontFamily: "Inter_700Bold",
+    fontSize: 23,
+    color: "#0F766E",
   },
   subtitle: {
     fontSize: 14,
@@ -991,13 +991,13 @@ const styles = StyleSheet.create({
   },
   locationLabel: {
     fontSize: 10,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#0F766E",
     letterSpacing: 0.7,
   },
   locationName: {
     fontSize: 14,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#0F172A",
   },
   locationDescription: {
@@ -1009,7 +1009,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#0F172A",
   },
   sectionDescription: {
@@ -1038,7 +1038,7 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     fontSize: 15,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#334155",
     marginTop: 13,
   },
@@ -1062,7 +1062,7 @@ const styles = StyleSheet.create({
   },
   chooseButtonText: {
     fontSize: 12,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#0F766E",
   },
   workshopList: {
@@ -1098,13 +1098,13 @@ const styles = StyleSheet.create({
   },
   workshopName: {
     fontSize: 14,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#0F172A",
   },
   workshopCategory: {
     fontSize: 10,
     color: "#0F766E",
-    fontWeight: "600",
+    fontFamily: "Inter_600SemiBold",
   },
   workshopAddressRow: {
     flexDirection: "row",
@@ -1120,7 +1120,7 @@ const styles = StyleSheet.create({
   workshopDistance: {
     fontSize: 11,
     color: "#334155",
-    fontWeight: "600",
+    fontFamily: "Inter_600SemiBold",
     marginTop: 2,
   },
   infoCard: {
@@ -1175,7 +1175,7 @@ const styles = StyleSheet.create({
   },
   sheetTitle: {
     fontSize: 18,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#0F172A",
   },
   sheetSubtitle: {
@@ -1219,7 +1219,7 @@ const styles = StyleSheet.create({
   },
   optionTitle: {
     fontSize: 13,
-    fontWeight: "600",
+    fontFamily: "Inter_600SemiBold",
     color: "#0F172A",
   },
   optionDescription: {
@@ -1241,11 +1241,11 @@ const styles = StyleSheet.create({
   separatorText: {
     fontSize: 10,
     color: "#94A3B8",
-    fontWeight: "600",
+    fontFamily: "Inter_600SemiBold",
   },
   manualLabel: {
     fontSize: 13,
-    fontWeight: "600",
+    fontFamily: "Inter_600SemiBold",
     color: "#334155",
     marginBottom: 9,
   },
@@ -1290,7 +1290,7 @@ const styles = StyleSheet.create({
   },
   resultTitle: {
     fontSize: 13,
-    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
     color: "#334155",
     marginBottom: 9,
   },
@@ -1326,7 +1326,7 @@ const styles = StyleSheet.create({
   },
   resultName: {
     fontSize: 13,
-    fontWeight: "600",
+    fontFamily: "Inter_600SemiBold",
     color: "#0F172A",
   },
   resultDescription: {
