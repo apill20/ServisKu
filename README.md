@@ -10,7 +10,7 @@ Pembuat: Ari Maulida Aprilia
 
 Unduh APK untuk Android melalui halaman build EAS:
 
-**[Unduh ServisKu (APK)](https://expo.dev/accounts/apill20/projects/ServisKu/builds/8daf7b05-3507-4f46-b562-5d2c8af3c22d)**
+**[Unduh ServisKu (APK)](https://expo.dev/accounts/apill20/projects/ServisKu/builds/9cfb4212-8c01-43cb-b60d-cde599db3b81)**
 
 Setelah diunduh, izinkan instalasi dari sumber tidak dikenal jika diminta oleh Android. Saat pertama dibuka, izinkan akses notifikasi dan lokasi agar pengingat dan pencarian bengkel dapat berfungsi.
 
