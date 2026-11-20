@@ -89,10 +89,6 @@ export default function KendaraanScreen() {
           <Text style={styles.headerTitle}>Kendaraan</Text>
           <Text style={styles.headerSubtitle}>Kelola kendaraan pribadimu.</Text>
         </View>
-
-        <View style={styles.notificationButton}>
-          <Ionicons name="notifications-outline" size={23} color="#0F766E" />
-        </View>
       </View>
 
       <ScrollView
@@ -240,17 +236,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#E0F2F2",
   },
 
-header: {
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center",
-  paddingHorizontal: 20,
-  paddingTop: 18,
-  paddingBottom: 16,
-  backgroundColor: "#E0F2F2",
-  borderBottomWidth: 1,
-  borderBottomColor: "#CDE5E2",
-},
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingTop: 18,
+    paddingBottom: 16,
+    backgroundColor: "#E0F2F2",
+    borderBottomWidth: 1,
+    borderBottomColor: "#CDE5E2",
+  },
 
   headerTitle: {
     fontFamily: "Inter_700Bold",
@@ -265,22 +261,13 @@ header: {
     marginTop: 5,
   },
 
-  notificationButton: {
-    width: 43,
-    height: 43,
-    borderRadius: 14,
+  scrollContent: {
+    flexGrow: 1,
     backgroundColor: "#FFFFFF",
-    justifyContent: "center",
-    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingTop: 22,
+    paddingBottom: 30,
   },
-
-scrollContent: {
-  flexGrow: 1,
-  backgroundColor: "#FFFFFF",
-  paddingHorizontal: 20,
-  paddingTop: 22,
-  paddingBottom: 30,
-},
 
   loadingContainer: {
     flex: 1,

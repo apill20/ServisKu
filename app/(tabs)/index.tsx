@@ -10,6 +10,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  Modal,
   Pressable,
   View,
 } from "react-native";
@@ -149,6 +150,7 @@ const warnaStatus = (status: StatusPerawatan["status"]) => {
 export default function HomeScreen() {
   const [username, setUsername] = useState("Pengendara");
   const router = useRouter();
+  const [modalInfoVisible, setModalInfoVisible] = useState(false);
 
   const [kendaraan, setKendaraan] = useState<Kendaraan[]>([]);
   const [daftarStatus, setDaftarStatus] = useState<StatusPerawatan[]>([]);
@@ -689,11 +691,17 @@ export default function HomeScreen() {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Status Perawatan</Text>
-            <Ionicons
-              name="information-circle-outline"
-              size={19}
-              color="#0F766E"
-            />
+            <Pressable
+              onPress={() => setModalInfoVisible(true)}
+              hitSlop={10}
+              style={({ pressed }) => pressed && { opacity: 0.6 }}
+            >
+              <Ionicons
+                name="information-circle-outline"
+                size={20}
+                color="#0F766E"
+              />
+            </Pressable>
           </View>
 
           {loading ? (
@@ -1128,6 +1136,126 @@ export default function HomeScreen() {
           </View>
         </View>
       </ScrollView>
+
+      {/* MODAL INFO STATUS PERAWATAN */}
+      <Modal
+        visible={modalInfoVisible}
+        transparent
+        animationType="slide"
+        statusBarTranslucent
+        onRequestClose={() => setModalInfoVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          {/* Area gelap di luar sheet untuk menutup modal */}
+          <Pressable
+            style={styles.modalBackdrop}
+            onPress={() => setModalInfoVisible(false)}
+          />
+
+          <View style={styles.modalContent}>
+            <View style={styles.modalHandle} />
+
+            <Text style={styles.modalTitle}>Keterangan Status Perawatan</Text>
+
+            <Text style={styles.modalDescription}>
+              Status dihitung otomatis dari odometer terbaru kendaraan dan
+              catatan servis terakhir di tab{" "}
+              <Text style={styles.modalBold}>Riwayat</Text>.
+            </Text>
+
+            <View style={styles.modalList}>
+              {/* Terlambat */}
+              <View style={styles.modalStatusItem}>
+                <View
+                  style={[
+                    styles.modalStatusIcon,
+                    { backgroundColor: "#FEE2E2" },
+                  ]}
+                >
+                  <Ionicons name="alert-circle" size={20} color="#DC2626" />
+                </View>
+                <View style={styles.modalStatusTextWrap}>
+                  <Text style={[styles.modalStatusTitle, { color: "#DC2626" }]}>
+                    Terlambat
+                  </Text>
+                  <Text style={styles.modalText}>
+                    Sudah mencapai atau melewati batas kilometer (≤ 0 km) maupun
+                    tenggat waktu (≤ 0 hari).
+                  </Text>
+                </View>
+              </View>
+
+              {/* Segera */}
+              <View style={styles.modalStatusItem}>
+                <View
+                  style={[
+                    styles.modalStatusIcon,
+                    { backgroundColor: "#FEF3C7" },
+                  ]}
+                >
+                  <Ionicons name="time" size={20} color="#D97706" />
+                </View>
+                <View style={styles.modalStatusTextWrap}>
+                  <Text style={[styles.modalStatusTitle, { color: "#D97706" }]}>
+                    Segera
+                  </Text>
+                  <Text style={styles.modalText}>
+                    Mendekati jadwal servis, yaitu sisa jarak ≤ 15% dari
+                    interval km atau sisa waktu ≤ 14 hari.
+                  </Text>
+                </View>
+              </View>
+
+              {/* Aman */}
+              <View style={styles.modalStatusItem}>
+                <View
+                  style={[
+                    styles.modalStatusIcon,
+                    { backgroundColor: "#CCFBF1" },
+                  ]}
+                >
+                  <Ionicons name="checkmark-circle" size={20} color="#0F766E" />
+                </View>
+                <View style={styles.modalStatusTextWrap}>
+                  <Text style={[styles.modalStatusTitle, { color: "#0F766E" }]}>
+                    Aman
+                  </Text>
+                  <Text style={styles.modalText}>
+                    Kondisi komponen masih di atas 15% batas kilometer dan lebih
+                    dari 14 hari sebelum servis berikutnya.
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            {/* Catatan Status Tambahan */}
+            <View style={styles.modalNoteBox}>
+              <Ionicons
+                name="information-circle"
+                size={18}
+                color="#0F766E"
+                style={{ marginTop: 1 }}
+              />
+              <Text style={styles.modalNoteText}>
+                Komponen tanpa catatan akan berstatus{" "}
+                <Text style={styles.modalBold}>Belum Ada Riwayat</Text>, dan
+                yang belum memiliki patokan jarak/waktu berstatus{" "}
+                <Text style={styles.modalBold}>Interval Belum Diatur</Text>.
+              </Text>
+            </View>
+
+            <Pressable
+              style={({ pressed }) => [
+                styles.modalButton,
+                pressed && { opacity: 0.9 },
+              ]}
+              onPress={() => setModalInfoVisible(false)}
+            >
+              <Text style={styles.modalButtonText}>Mengerti</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -1652,5 +1780,108 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     overflow: "hidden",
     marginBottom: 15,
+  },
+
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(15, 23, 42, 0.45)",
+    justifyContent: "flex-end",
+  },
+  modalBackdrop: {
+    flex: 1,
+  },
+  modalContent: {
+    width: "100%",
+    maxWidth: 900,
+    alignSelf: "center",
+    backgroundColor: "#FFFFFF",
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingHorizontal: 22,
+    paddingTop: 12,
+    paddingBottom: 30,
+  },
+  modalHandle: {
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: "#CBD5E1",
+    alignSelf: "center",
+    marginBottom: 16,
+  },
+  modalTitle: {
+    fontFamily: "Inter_700Bold",
+    fontSize: 17,
+    color: "#0F172A",
+    marginBottom: 8,
+  },
+  modalDescription: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 12.5,
+    color: "#64748B",
+    lineHeight: 19,
+    marginBottom: 18,
+  },
+  modalBold: {
+    fontFamily: "Inter_600SemiBold",
+    color: "#0F172A",
+  },
+  modalList: {
+    gap: 14,
+    marginBottom: 18,
+  },
+  modalStatusItem: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 12,
+  },
+  modalStatusIcon: {
+    width: 38,
+    height: 38,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 2,
+  },
+  modalStatusTextWrap: {
+    flex: 1,
+    gap: 2,
+  },
+  modalStatusTitle: {
+    fontFamily: "Inter_700Bold",
+    fontSize: 14,
+  },
+  modalText: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 12.5,
+    color: "#475569",
+    lineHeight: 18,
+  },
+  modalNoteBox: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 9,
+    backgroundColor: "#E0F2F2",
+    padding: 12,
+    borderRadius: 13,
+    marginBottom: 20,
+  },
+  modalNoteText: {
+    flex: 1,
+    fontFamily: "Inter_400Regular",
+    fontSize: 12,
+    color: "#0F766E",
+    lineHeight: 18,
+  },
+  modalButton: {
+    backgroundColor: "#0F766E",
+    paddingVertical: 13,
+    borderRadius: 14,
+    alignItems: "center",
+  },
+  modalButtonText: {
+    fontFamily: "Inter_600SemiBold",
+    color: "#FFFFFF",
+    fontSize: 14,
   },
 });

@@ -408,10 +408,6 @@ export default function RiwayatScreen() {
             Lihat catatan perawatan kendaraanmu.
           </Text>
         </View>
-
-        <View style={styles.notificationButton}>
-          <Ionicons name="notifications-outline" size={23} color="#0F766E" />
-        </View>
       </View>
 
       <ScrollView
@@ -847,15 +843,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: "#64748B",
     marginTop: 5,
-  },
-
-  notificationButton: {
-    width: 43,
-    height: 43,
-    borderRadius: 14,
-    backgroundColor: "#FFFFFF",
-    justifyContent: "center",
-    alignItems: "center",
   },
 
   scrollContent: {
